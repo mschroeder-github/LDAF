@@ -49,9 +49,9 @@ Linked Data Application Framework
 
 ## Tutorial
 
-In this tutorial we will explain how a [exemplary](example) linked data application is build with
+In this tutorial we will explain how a [exemplary](ldaf-example) linked data application is build with
 LDAF.
-When you would like to build your own application, we recommend you to use the example project as
+When you would like to build your own application, we recommend you to use the [example project](ldaf-example) as
 a starting point and change it like you need it.
 
 ### Hello World
@@ -76,7 +76,7 @@ First create a Java Maven project and add the LDAF dependency in your `pom.xml`.
 </project>
 ```
 
-Create a [Java class and a main-method](example/src/main/java/de/dfki/sds/example/Main.java). First, we need to define the settings
+Create a [Java class and a main-method](ldaf-example/src/main/java/de/dfki/sds/example/Main.java). First, we need to define the settings
 of the linked data application.
 ```java
 import de.dfki.sds.ldaf.LinkedDataApplicationSettings;
@@ -112,7 +112,7 @@ settings.setDefaultHost("http://localhost:8081");
 
 Your linked data application needs an **ontology** that formalizes the domain of
 its linked data. For demonstation purpose, we reuse our [Guideline Ontology](http://www.dfki.uni-kl.de/~mschroeder/ld/gl) and
-put it in the [resources folder](example/src/main/resources/de/dfki/sds/example/vocab) of our project.
+put it in the [resources folder](ldaf-example/src/main/resources/de/dfki/sds/example/vocab) of our project.
 However, we changed the namespace to `http://localhost:8081/ontology/` so that ontology concept URIs are
 resolvable. In the settings, we configure an ontology supplier that returns the ontology model.
 If the ontology graph URI is set with `setOntologyGraph`, the ontology model is stored in the application's [Jena TDB store](https://jena.apache.org/documentation/tdb/) as a separate RDF graph.
@@ -1054,7 +1054,7 @@ By using FreeMarkers `#if` statement, we can switch to an edit mode when the que
     </#if>
 </#if>
 ```
-Our `ldaf.js` file provides the `propertyPatcher` function.
+Our [ldaf.js](ldaf/src/main/resources/de/dfki/sds/ldaf/web/js/ldaf.js) file provides the `propertyPatcher` function.
 It implements for an `input` (or `textarea`) element a debounce mechanism: when the user
 stops typing, a PATCH request is sent that changes the given property value of the currently
 browsed site (in our case http://localhost:8081/guideline/2).
