@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <link href="/css/bootstrap.css" rel="stylesheet" />
+        <link href="/css/all.min.css" rel="stylesheet" />
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js" ></script>
+        <script src="/js/ldaf.js" ></script>
+
+        <title>Example | LDAF</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <img src="/img/LDAF.png" /><br/>
+                    <h1>Linked Data Application Framework<br/>Example</h1>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h4><i class="fa fa-sign-in-alt"></i> Log In</h4>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="User Name" name="userName" value="${userName!''}" id="loginUserName" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Password" name="password" id="loginPassword" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="return loginAction()">Log In</button>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-warning" role="alert" style="display: none;" id="loginFailedAlert">
+                        The log in failed.
+                    </div>
+
+                    <#if query_unauthorized??>
+                    <div class="alert alert-warning" role="alert">
+                        You have to log in first.
+                    </div>
+                    </#if>
+
+                </div>
+                <div class="col-md-6">
+                    <div id="accordion">
+
+                        <h4><a data-toggle="collapse" href="#collapseRegister"><i class="fa fa-user-check"></i> Register</a></h4>
+
+                        <div class="collapse" id="collapseRegister">
+
+                            <form id="registerForm" id="collapseRegister" class="collapse show">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input class="form-control" type="text" placeholder="First Name" name="firstName" />
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text" placeholder="Last Name" name="lastName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <small class="text-muted">Your first name and last name will be shown on your profile page to other registered users.</small>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="User Name" name="userName" id="regUserName"/>
+                                    <small class="text-muted">Your unique user name must not contain spaces or symbols (i.e. it has to match <code>[a-zA-Z_0-9]+</code>). It cannot be changed afterwards. Your profile will be available at <code>/user/&lt;username&gt;</code>.</small>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" placeholder="Password" name="password" />
+                                    <small class="text-muted">Your secure password to log in.</small>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Registration Code" name="secret" />
+                                    <small class="text-muted">A secret code you obtain from the website's author to be able to register.</small>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" onclick="return registerAction()">Register</button>
+                                </div>
+                            </form>
+
+                            <div class="alert alert-success" role="alert" style="display: none;" id="registerAlert">
+                                You are successfully registered. Sign in with your credentials.
+                            </div>
+                            <div class="alert alert-warning" role="alert" style="display: none;" id="registerFailedAlert">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function loginAction() {
+                var formData = formToJSON($("#loginForm"));
+                login(formData, function () {
+                    window.location = '/user/' + formData.userName;
+                }, function () {
+                    $('#loginFailedAlert').show();
+                });
+                return false;
+            }
+
+            function registerAction() {
+                var formData = formToJSON($("#registerForm"));
+                register(formData, function () {
+                    $('#registerFailedAlert').hide();
+                    $('#registerAlert').show();
+                    //copy&paste username to login
+                    $('#loginUserName').val($('#regUserName').val());
+                    $('#loginPassword').val("");
+                    //reset input
+                    $('#registerForm')[0].reset();
+                }, function (request) {
+                    $('#registerFailedAlert').text(request.responseText);
+                    $('#registerFailedAlert').show();
+                });
+                return false;
+            }
+        </script>
+
+    </body>
+</html>

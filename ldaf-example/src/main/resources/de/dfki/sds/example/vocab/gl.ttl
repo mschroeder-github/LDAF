@@ -1,0 +1,229 @@
+# MIT License
+#
+# Copyright (c) 2021 Markus Schröder, DFKI GmbH
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+@prefix : <http://localhost:8081/ontology> .
+@prefix ex: <http://localhost:8081/ontology/> .
+
+: a owl:Ontology ;
+    dc:creator "Markus Schröder" ;
+    dc:date "2021-03-04"^^xsd:date ;
+    dc:title "Guideline Ontology" ;
+    dc:description "This ontology contains the terminology to describe managed guideline documents." .
+
+ex:Guideline a rdfs:Class ;
+    rdfs:subClassOf foaf:Document ;
+    rdfs:label "Guideline" ;
+    rdfs:comment "A guideline is a document that contains statements used to determine a course of action. It aims to streamline particular processes according to a set routine or sound practice." .
+
+ex:Attachment a rdfs:Class ;
+    rdfs:subClassOf foaf:Document ;
+    rdfs:label "Attachment" ;
+    rdfs:comment "A document joined to a guideline which gives extra details." .
+
+ex:Department a rdfs:Class ;
+    rdfs:label "Department" ;
+    rdfs:comment "A part of an organization that deals with a particular area of work." .
+
+ex:Kind a rdfs:Class ;
+    rdfs:label "Kind" ;
+    rdfs:comment "A group with similar characteristics, or a particular type of guidelines." .
+
+ex:State a rdfs:Class ;
+    rdfs:label "State" ;
+    rdfs:comment "A condition of a document that exists at a particular time." .
+
+ex:Category a rdfs:Class ;
+    rdfs:label "Category" ;
+    rdfs:comment "A group of guidelines having some features that are the same." .
+
+ex:MailingList a rdfs:Class ;
+    rdfs:label "Mailing List" ;
+    rdfs:comment "A list of names and addresses kept by an organization so that it can notify changes in guidelines." .
+
+ex:SecurityNeed a rdfs:Class ;
+    rdfs:label "Security Need" ;
+    rdfs:comment "A need for security by a guideline because of confidentiality reasons." .
+
+ex:Procedure a rdfs:Class ;
+    rdfs:label "Procedure" ;
+    rdfs:comment "A set of actions that has to be done to manage a guideline." .
+
+ex:Progress a rdfs:Class ;
+    rdfs:label "Progress" ;
+    rdfs:comment "A progress status for estimating development towards a completed procedure." .
+
+ex:manages a rdf:Property ;
+    rdfs:label "Manages" ;
+    rdfs:comment "A procedure manages a certain guideline." ;
+    rdfs:domain ex:Procedure ;
+    rdfs:range ex:Guideline .
+
+ex:hasProgress a rdf:Property ;
+    rdfs:label "Progress" ;
+    rdfs:comment "A procedure has reached a certain progress." ;
+    rdfs:domain ex:Procedure ;
+    rdfs:range ex:Progress .
+
+ex:hasId a rdf:Property ;
+    rdfs:label "ID" ;
+    rdfs:comment "A unique identification string used to refer to a particular guideline." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range xsd:string .
+
+ex:hasNumber a rdf:Property ;
+    rdfs:label "Number" ;
+    rdfs:comment "A unique identification number used to refer to a particular attachment." ;
+    rdfs:domain ex:Attachment ;
+    rdfs:range xsd:int .
+
+ex:validFrom a rdf:Property ;
+    rdfs:label "Valid From" ;
+    rdfs:comment "The date when a document is in the condition of being officially true or legally acceptable." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:date ;
+    rdfs:seeAlso ex:invalidFrom .
+
+ex:plannedValidFrom a rdf:Property ;
+    rdfs:label "Planned Valid From" ;
+    rdfs:comment "The date when a document is planned to be officially true or legally acceptable." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:date ;
+    rdfs:seeAlso ex:validFrom .
+
+ex:invalidFrom a rdf:Property ;
+    rdfs:label "Invalid From" ;
+    rdfs:comment "The date when a document is in the condition of not being legally or officially acceptable." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:date ;
+    rdfs:seeAlso ex:validFrom .
+
+ex:lastModifiedDate a rdf:Property ;
+    rdfs:label "Last Modified Date" ;
+    rdfs:comment "The date when a document was last edited or changed." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:date .
+
+ex:isRecent a rdf:Property ;
+    rdfs:label "Recent" ;
+    rdfs:comment "A boolean value if the guideline was introduced and not managed yet." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range xsd:boolean .
+
+ex:hasCategory a rdf:Property ;
+    rdfs:label "Category" ;
+    rdfs:comment "A guideline is associated with a certain category." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:Category .
+
+ex:hasNote a rdf:Property ;
+    rdfs:label "Note" ;
+    rdfs:comment "A short note about a document." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:string .
+
+ex:hasAttachment a rdf:Property ;
+    rdfs:label "Attachment" ;
+    rdfs:comment "A guideline has an attachment." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:Attachment .
+
+ex:hasAbbreviation a rdf:Property ;
+    rdfs:label "Abbreviation" ;
+    rdfs:comment "A short form of a title or name of something (e.g. an acronym)." ;
+    rdfs:domain rdf:Resource ;
+    rdfs:range xsd:string .
+
+ex:hasState a rdf:Property ;
+    rdfs:label "State" ;
+    rdfs:comment "A state in which the document currently is." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range ex:State .
+
+ex:hasSecurityNeed a rdf:Property ;
+    rdfs:label "Security Need" ;
+    rdfs:comment "The security need the guideline currently has." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:SecurityNeed .
+
+ex:hasDepartment a rdf:Property ;
+    rdfs:label "Department" ;
+    rdfs:comment "A guideline applies to a certain department." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:Department .
+
+ex:worksAt a rdf:Property ;
+    rdfs:label "Works At" ;
+    rdfs:comment "A person works at a certain department or in a certain group." ;
+    rdfs:domain foaf:Person ;
+    rdfs:range xsd:string .
+
+ex:inMailingList a rdf:Property ;
+    rdfs:label "Mailing List" ;
+    rdfs:comment "A guideline is associated with a mailing list." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:MailingList .
+
+ex:hasTitle a rdf:Property ;
+    rdfs:subPropertyOf dc:title ;
+    rdfs:label "Title" ;
+    rdfs:comment "A headline of a document." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range xsd:string .
+
+ex:hasKind a rdf:Property ;
+    rdfs:label "Kind" ;
+    rdfs:comment "A guildline is from a specific kind (type, category)." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range ex:Kind .
+
+ex:hasEditorResponsible a rdf:Property ;
+    rdfs:subPropertyOf ex:hasEditor ;
+    rdfs:label "Responsible" ;
+    rdfs:comment "A guideline has a responsible editor who makes important decisions for the guideline." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range foaf:Person .
+
+ex:hasEditor a rdf:Property ;
+    rdfs:label "Editor" ;
+    rdfs:comment "A document has an editor who changes the content of a document." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range foaf:Person .
+
+ex:wasFormerEditor a rdf:Property ;
+    rdfs:label "Former Editor" ;
+    rdfs:comment "A document had an editor who changed the content of a document." ;
+    rdfs:domain ex:Guideline , ex:Attachment ;
+    rdfs:range foaf:Person .
+
+ex:hasReviewer a rdf:Property ;
+    rdfs:label "Reviewer" ;
+    rdfs:comment "A guideline has an reviewer who checks the content of a guideline." ;
+    rdfs:domain ex:Guideline ;
+    rdfs:range foaf:Person .
+

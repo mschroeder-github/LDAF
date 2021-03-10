@@ -1,0 +1,6 @@
+/ldaf/target/
+/ldaf-example/target/
+/ldaf-example/data/
+nbactions.xml
+/ldaf-example/ldaf-example.sh
+/ldaf-example/deploy.sh

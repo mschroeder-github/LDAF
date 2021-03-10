@@ -1,0 +1,12 @@
+
+SELECT *
+{
+    GRAPH ?graph {
+        ?s rdfs:label ?label .
+        FILTER regex(?label, ?regex, "i") .
+
+        VALUES (?graph) { ?visibleGraphs }
+    }
+}
+ORDER BY ?graph ?label
+

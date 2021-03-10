@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <link href="/css/bootstrap.css" rel="stylesheet" />
+        <link href="/css/all.min.css" rel="stylesheet" />
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js" ></script>
+        <script src="/js/ldaf.js" ></script>
+
+        <title>Guideline</title>
+    </head>
+    <body>
+        <#if query_edit??>
+            <a href="${path}" class="btn"><i class="fa fa-arrow-circle-left"></i></a><br/>
+            <input type="text" value="${hasTitle}" placeholder="Title" id="hasTitleId" /><br/>
+            <textarea placeholder="Note" id="hasNoteId">${hasNote!''}</textarea><br/>
+            <input type="text" value="${validFrom!''}" placeholder="Valid From" id="validFromId"/>
+            
+            <script>
+                propertyPatcher("hasTitleId", "hasTitle");
+                propertyPatcher("hasTitleId", "label");
+                propertyPatcher("hasNoteId", "hasNote");
+                propertyPatcher("validFromId", "validFrom");
+            </script>
+        <#else>
+        <h2>${hasTitle} <a href="${path}?edit"><i class="fa fa-edit"></i></a></h2>
+            <p>
+                ${hasNote!''}
+            </p>
+
+            <#if validFrom??>
+            Valid from: ${validFrom}
+            </#if>
+        </#if>
+        
+        <br/>
+        <br/>
+        <button class="btn btn-danger" onclick="del('${label}', '${path}')">Delete</button>
+        <script>
+            function del(label, path) {
+                if (confirm("Remove "+ label +"?")) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: path,
+                        success: function () {
+                            window.location.replace("/guideline");
+                        }
+                    });
+                }
+            }
+        </script>
+    </body>
+</html>
+

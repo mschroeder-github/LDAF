@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <link href="/css/bootstrap.css" rel="stylesheet" />
+        <link href="/css/all.min.css" rel="stylesheet" />
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js" ></script>
+        <script src="/js/ldaf.js" ></script>
+
+        <title>Upload</title>
+    </head>
+    <body>
+        <form method='post' enctype='multipart/form-data'>
+            <input type='file' name='uploaded_file'>
+            <button>Upload</button>
+        </form>
+        or just paste an image on this page using <kbd>Control + V</kbd>.
+
+        <script>
+            //https://stackoverflow.com/a/6338207
+            document.onpaste = function (event) {
+                var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                //console.log(JSON.stringify(items)); // will give you the mime types
+                for (index in items) {
+                    var item = items[index];
+                    if (item.kind === 'file') {
+                        var blob = item.getAsFile();
+
+                        var fd = new FormData();
+                        fd.append('uploaded_file', blob);
+
+                        $('#uploadingAlert').show();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/upload',
+                            data: fd,
+                            headers: {
+                                Accept: "application/json"
+                            },
+                            processData: false,
+                            contentType: false,
+                            success: function (data, textStatus, request) {
+                                var link = request.getResponseHeader('Location');
+                                $('#linkAnchor').attr("href", link);
+                                $('#linkAnchor').text(link);
+                                $('#uploadingAlert').hide();
+                                $('#uploadAlert').show();
+                            }
+                        });
+                    }
+                }
+            }
+        </script>
+
+        <br/>
+        <br/>
+
+        <#if link??>
+        <div class="alert alert-success" role="alert">
+            Image was uploaded to <a href="${link}">${link}</a>.
+        </div>
+        </#if>
+
+        <div class="alert alert-success" role="alert" style="display: none" id="uploadAlert">
+            Image was uploaded to <a href="" id="linkAnchor"></a>.
+        </div>
+
+        <div class="alert alert-info" role="alert" style="display: none" id="uploadingAlert">
+            Image is uploading ...
+        </div>
+
+    </body>
+</html>
