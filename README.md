@@ -298,8 +298,8 @@ The `query_*` variables can be used to access given query parameters.
 
 Our website at http://localhost:8081/ looks like this.
 
-|![](img/root.png)|
--
+![](img/root.png)
+
 
 LDAF already provides register and login endpoints.
 We have to implement two functions to send data to them.
@@ -392,8 +392,8 @@ Since the ontology namespace is identical with the namespace in the ontology fil
 every concept URI is resolvable.
 Currently, this only works when a path (`/`) is used, instead of a fragment identifier `#`.
 
-|![](img/ontology.png)|
--
+![](img/ontology.png)
+
 
 Providing the ontology in Turtle syntax is still not easy to understand for
 non-technical users. Using the template language and the ontology model one
@@ -495,8 +495,8 @@ The `${query}` variable holds the current query.
 If a non-empty query was sent via the `q` query parameter, a result is returned that can be iterated with `<#list`.
 A rendered version with data looks like this:
 
-|![](img/search.png)|
--
+![](img/search.png)
+
 
 
 It also handles `Accept:application/json` and `Accept:text/turtle` requests.
@@ -662,8 +662,8 @@ The uploader receives a file via a `POST` request containing a `uploaded_file` f
 On success, it returns the uploaded image's URL in `Location` header, for example, `http://localhost:8081/upload/15`.
 These links can be used to refer to uploaded images in our linked data.
 
-|![](img/upload.png)|
--
+![](img/upload.png)
+
 
 Because of missing transparency in JPG images, we also create a corresponding PNG version.
 By appending `.jpg` or `.png` to the upload link, the retrieved format can be selected.
@@ -770,8 +770,8 @@ ${total} guideline${(total == 1)?then('','s')} found.
 
 After we created two guidelines (see below), they are listed in the HTML page.
 
-|![](img/guidelinelist.png)|
--
+![](img/guidelinelist.png)
+
 
 The corresponding JSON result is the following.
 ```json
@@ -867,8 +867,8 @@ Valid from: ${validFrom}
 </#if>
 ```
 
-|![](img/guideline.png)|
--
+![](img/guideline.png)
+
 
 **Create**
 
@@ -1060,8 +1060,8 @@ stops typing, a PATCH request is sent that changes the given property value of t
 browsed site (in our case http://localhost:8081/guideline/2).
 A red border around the element indicates that entered value was not yet changed on the server side.
 
-|![](img/guidelineEdit.png)|
--
+![](img/guidelineEdit.png)
+
 
 A similar behavior is implemented in `patchSelectOnChange` for `select` elements.
 
@@ -1381,8 +1381,8 @@ The `own.html` file looks like the following.
 </div>
 ```
 
-|![](img/own.png)|
--
+![](img/own.png)
+
 
 If you already have a JSON object you would like to render in the template, you can use the
 `prepareRenderModel` method in the following way.
