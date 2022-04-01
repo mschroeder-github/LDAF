@@ -96,7 +96,6 @@ The prefix is the usual prefix name of your ontology.
 The sitename can be accessed later during the HTML rendering.
 ```java
 settings.setPort(8081);
-settings.setPort(8081);
 settings.setAppname("example.jar");
 settings.setPrefix("ex");
 settings.setSitename("Example");
